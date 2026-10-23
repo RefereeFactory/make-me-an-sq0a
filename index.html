@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Share — Distribute Resources with Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#23312b;
+  --sage:#4a7a63;
+  --sage-dark:#35604c;
+  --cream:#f6f3ec;
+  --peach:#f0d9c4;
+  --paper:#fffdf8;
+  --line:#e2ddd1;
+  --gap:#d97d4a;
+  --shadow:0 10px 30px rgba(53,96,76,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:'Inter',system-ui,sans-serif;color:var(--ink);
+  background:var(--cream);line-height:1.6;
+}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.2;margin:0 0 .4em}
+a{color:var(--sage-dark)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:46px;padding:0 22px;border-radius:30px;border:none;cursor:pointer;
+  font-family:'Inter';font-weight:600;font-size:1rem;background:var(--sage);color:#fff;
+  transition:transform .12s ease,background .2s ease,box-shadow .2s ease;
+}
+.btn:hover{background:var(--sage-dark);transform:translateY(-2px);box-shadow:var(--shadow)}
+.btn:focus-visible{outline:3px solid var(--gap);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--sage-dark);border:2px solid var(--sage)}
+.btn.ghost:hover{background:rgba(74,122,99,.08);color:var(--sage-dark)}
+.btn.small{min-height:38px;font-size:.9rem;padding:0 16px}
+
+/* Hero */
+header.hero{
+  background:linear-gradient(160deg,#eef4ef 0%,var(--peach) 120%);
+  padding:70px 0 60px;position:relative;overflow:hidden;
+}
+.hero-badge{
+  display:inline-block;background:var(--paper);border:1px solid var(--line);
+  padding:6px 16px;border-radius:30px;font-size:.85rem;font-weight:600;
+  color:var(--sage-dark);margin-bottom:20px;
+}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);max-width:14ch}
+.hero p.lede{font-size:1.15rem;max-width:52ch;color:#45544c}
+.hero-cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px}
+.hero-art{position:absolute;right:-40px;bottom:-30px;font-size:11rem;opacity:.16;pointer-events:none}
+@media(min-width:760px){.hero-art{opacity:.22}}
+
+/* Sections */
+section{padding:56px 0}
+.section-head{max-width:60ch;margin-bottom:32px}
+.section-head h2{font-size:clamp(1.6rem,4vw,2.2rem)}
+.section-head p{color:#53615a;margin:0}
+.muted{color:#6a7872}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px;max-width:560px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center}
+.stat b{font-family:'Fraunces';font-size:1.8rem;display:block;color:var(--sage-dark)}
+.stat span{font-size:.82rem;color:#6a7872}
+
+/* Layout cols */
+.cols{display:grid;gap:30px}
+@media(min-width:860px){.cols{grid-template-columns:1fr 1.15fr}}
+
+/* Card / form */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+label{display:block;font-weight:600;font-size:.92rem;margin:14px 0 6px}
+input,textarea,select{
+  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+  font-family:inherit;font-size:1rem;background:#fff;color:var(--ink);
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--sage)}
+textarea{min-height:84px;resize:vertical}
+.check{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-weight:400;font-size:.92rem}
+.check input{width:auto;margin-top:4px}
+
+/* Listings */
+.listings{display:grid;gap:18px}
+@media(min-width:620px){.listings{grid-template-columns:1fr 1fr}}
+.item{
+  background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;
+  display:flex;flex-direction:column;gap:10px;transition:transform .12s,box-shadow .2s;
+}
+.item:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.item h3{margin:0;font-size:1.25rem}
+.item .meta{font-size:.85rem;color:#6a7872;display:flex;flex-wrap:wrap;gap:6px 14px}
+.pill{display:inline-block;background:#eef4ef;color:var(--sage-dark);border-radius:20px;padding:3px 12px;font-size:.78rem;font-weight:600}
+.pill.low{background:#fbe6d8;color:#b2572a}
+.pill.out{background:#eee;color:#888}
+.item .avail{font-weight:600}
+.item-foot{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* filters */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;align-items:center}
+.toolbar input,.toolbar select{width:auto;flex:1;min-width:140px}
+
+/* gap marker */
+.gap{
+  border:1.5px dashed var(--gap);background:#fff4ec;color:#b2572a;
+  padding:2px 8px;border-radius:7px;font-weight:600;font-size:.86rem;
+}
+
+/* saved indicator */
+#saved{
+  position:fixed;bottom:18px;right:18px;background:var(--sage-dark);color:#fff;
+  padding:10px 18px;border-radius:30px;font-size:.9rem;font-weight:600;
+  opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;z-index:50;
+}
+#saved.show{opacity:1;transform:none}
+
+/* owner panel */
+.owner-panel{display:none;margin-top:24px}
+.owner-panel.show{display:block}
+table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--sage-dark)}
+.scroll{overflow-x:auto}
+
+/* weather / near strip */
+.strip{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-top:18px;font-size:.95rem}
+
+/* pay */
+#shop{background:linear-gradient(160deg,var(--paper),#f3efe5)}
+[data-factory-pay]{margin-top:18px}
+.factory-pay-item{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:12px;flex-wrap:wrap}
+.factory-pay-name{font-weight:600}
+.factory-pay-price{font-family:'Fraunces';font-size:1.2rem;color:var(--sage-dark)}
+.factory-pay-btn{min-height:44px;padding:0 20px;border-radius:30px;border:none;background:var(--sage);color:#fff;font-weight:600;cursor:pointer}
+.factory-pay-btn:hover{background:var(--sage-dark)}
+
+/* how it works */
+.how{background:var(--ink);color:#e9e5db}
+.how h2{color:#fff}
+.how .steps{display:grid;gap:20px;margin-top:26px}
+@media(min-width:720px){.how .steps{grid-template-columns:repeat(4,1fr)}}
+.step b{display:block;font-family:'Fraunces';font-size:1.5rem;color:var(--peach)}
+footer{background:var(--ink);color:#aeb6b0;padding:30px 0;font-size:.86rem;text-align:center}
+
+.empty{text-align:center;color:#6a7872;padding:30px;border:1.5px dashed var(--line);border-radius:16px}
+.loading{color:#6a7872;font-style:italic}
+</style>
+<script id="factory-store-sdk">
+window.factory=(function(){
+var K="2a9b455f-46e1-4a9c-9188-00a1abda1652",U="https://canvbkibjgcnqowjtarf.supabase.co/functions/v1/app-market",A="sb_publishable_sMTQKIeFgT1vwjHnU7Gexg_8CCmhtxs";
+function call(b){b.appKey=K;return fetch(U,{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+A},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(d){if(!r.ok)throw new Error(d.error||("store "+r.status));return d;});});}
+var S={
+put:function(c,i,d){return call({op:"put",collection:c,id:String(i),data:d}).then(function(x){return x.doc?x.doc.data:null;});},
+get:function(c,i){return call({op:"get",collection:c,id:String(i)}).then(function(x){return x.doc?x.doc.data:null;});},
+list:function(c){return call({op:"list",collection:c}).then(function(x){return x.docs.map(function(d){return d.data;});});},
+remove:function(c,i){return call({op:"delete",collection:c,id:String(i)}).then(function(){return true;});},
+unlock:function(code){return call({op:"redeem",code:String(code)}).then(function(x){try{localStorage.setItem("factory_access",x.status);}catch(e){}return x.status;});},
+access:function(){try{return localStorage.getItem("factory_access")||"none";}catch(e){return "none";}}
+};
+var _c=null;try{var h=(location.hash||"").match(/factory_code=([a-z0-9-]+)/i);_c=h?h[1]:localStorage.getItem("factory_code");if(h){history.replaceState(null,"",location.pathname+location.search);}}catch(e){}
+var F={put:S.put,get:S.get,list:S.list,remove:S.remove,unlock:S.unlock,access:S.access};
+F.ready=_c?S.unlock(_c).then(function(s){try{if(s!=="invalid")localStorage.setItem("factory_code",_c);}catch(e){}return s;}).catch(function(){return S.access();}):Promise.resolve(S.access());
+return F;})();
+</script>
+<script id="factory-pay-sdk">
+(function(){var s=document.createElement("script");s.src="https://canvbkibjgcnqowjtarf.supabase.co/functions/v1/app-pay?sdk=1&repo=make-me-an-sq0a&v="+Math.floor(Date.now()/300000);s.async=true;document.head.appendChild(s);})();
+</script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="hero-badge">🌾 Community Share</span>
+    <h1>Share what you have. Reach those who need it.</h1>
+    <p class="lede">A kind, simple way to list food, supplies and goods your group is giving out — and let neighbours claim what they need, with dignity and ease.</p>
+    <div class="hero-cta">
+      <a href="#available" class="btn">Browse what's available</a>
+      <a href="#add" class="btn ghost">List something to share</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statItems">0</b><span>items listed</span></div>
+      <div class="stat"><b id="statClaims">0</b><span>claims made</span></div>
+      <div class="stat"><b id="statUnits">0</b><span>units shared</span></div>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">🤲</div>
+</header>
+
+<!-- AVAILABLE -->
+<section id="available">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Available to claim</h2>
+      <p>Everything below is offered freely by local people and groups. Claim only what you need so there's enough for everyone.</p>
+    </div>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search items…" aria-label="Search items">
+      <select id="filterCat" aria-label="Filter by category">
+        <option value="">All categories</option>
+        <option>Food &amp; groceries</option>
+        <option>Clothing</option>
+        <option>Household</option>
+        <option>Baby &amp; children</option>
+        <option>Books &amp; learning</option>
+        <option>Other</option>
+      </select>
+      <select id="filterAvail" aria-label="Filter by availability">
+        <option value="">All</option>
+        <option value="in">In stock</option>
+        <option value="out">Fully claimed</option>
+      </select>
+    </div>
+    <div id="listings" class="listings"></div>
+    <div id="noItems" class="empty" style="display:none">No items match just yet. Try clearing filters, or be the first to list something below. 💚</div>
+  </div>
+</section>
+
+<!-- ADD + NEAR -->
+<section style="background:#eef4ef">
+  <div class="wrap cols">
+    <div>
+      <div class="section-head">
+        <h2 id="add">List something to share</h2>
+        <p>Add food or goods your group has going spare. Claimers will see the location name and remaining quantity so pick-ups stay simple.</p>
+      </div>
+      <div class="strip">
+        <strong>Find collection points near a postcode</strong>
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+          <input id="pcode" placeholder="e.g. SW1A 1AA" aria-label="Postcode to search near" style="flex:1;min-width:120px">
+          <button class="btn small" id="findBtn" type="button">Find spots</button>
+        </div>
+        <div id="nearOut" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <form class="card" id="shareForm">
+      <h3 style="margin-top:0">New listing</h3>
+      <label for="fName">Item name</label>
+      <input id="fName" required placeholder="e.g. Fresh bread loaves">
+      <label for="fCat">Category</label>
+      <select id="fCat">
+        <option>Food &amp; groceries</option>
+        <option>Clothing</option>
+        <option>Household</option>
+        <option>Baby &amp; children</option>
+        <option>Books &amp; learning</option>
+        <option>Other</option>
+      </select>
+      <label for="fQty">Quantity available</label>
+      <input id="fQty" type="number" min="1" value="10" required>
+      <label for="fLoc">Collection point / area</label>
+      <input id="fLoc" required placeholder="e.g. St. Mary's Hall, Riverside">
+      <label for="fDesc">Short description</label>
+      <textarea id="fDesc" placeholder="Anything claimers should know — times, condition, dietary notes…"></textarea>
+      <button class="btn" type="submit" style="margin-top:18px;width:100%">Publish listing</button>
+    </form>
+  </div>
+</section>
+
+<!-- CLAIM MODAL replaced by inline -->
+<section id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Support the pantry</h2>
+      <p>Running a sharing table costs a little — crates, bags, fuel for collections. If you'd like to chip in to keep it going, our organiser's listed options appear here.</p>
+    </div>
+    <div data-factory-pay></div>
+  </div>
+</section>
+
+<!-- OWNER -->
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Organiser desk</h2>
+      <p>For the person running this share. Enter your organiser code to review claimers and export your contact list.</p>
+    </div>
+    <div class="card" style="max-width:520px">
+      <label for="ownerCode">Organiser code</label>
+      <input id="ownerCode" type="password" placeholder="Set or enter your code">
+      <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+        <button class="btn small" id="ownerBtn" type="button">Open desk</button>
+        <button class="btn small ghost" id="ownerExport" type="button">Download CSV</button>
+      </div>
+      <p class="muted" style="font-size:.84rem;margin-bottom:0">First time? Choose a code and it becomes your desk password. Only consented contacts are included in the export.</p>
+    </div>
+    <div class="owner-panel card" id="ownerPanel" style="margin-top:20px">
+      <h3 style="margin-top:0">Claimers &amp; contacts</h3>
+      <div class="scroll"><table id="ownerTable"><thead><tr><th>Name</th><th>Contact</th><th>Item</th><th>Qty</th><th>Consent</th><th>Date</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><b>1</b>List what you have going spare — food or goods, with a quantity and a collection point.</div>
+      <div class="step"><b>2</b>Neighbours browse and claim only what they need. Quantities update automatically for everyone.</div>
+      <div class="step"><b>3</b>Every listing and claim is saved to permanent cloud storage, so the board stays live across all visitors and visits.</div>
+      <div class="step"><b>4</b>Organisers unlock the desk with their own code to see claimers and export consented contacts as CSV.</div>
+    </div>
+    <p class="muted" style="margin-top:24px;color:#9aa49e">Location search uses The Factory's places service. No card details are ever entered here — any support contributions go through The Factory's secure pay facility.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Community Share — built with love for neighbours helping neighbours. 💚</div>
+</footer>
+
+<div id="saved">Saved ✓</div>
+
+<script>
+const factory = window.factory || {
+  _s:{}, async put(c,i,d){(this._s[c]=this._s[c]||{})[i]=d;}, async get(c,i){return (this._s[c]||{})[i]||null;},
+  async list(c){return Object.entries(this._s[c]||{}).map(([id,v])=>({id,...v})).reverse();},
+  async remove(c,i){if(this._s[c])delete this._s[c][i];}
+};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let items=[], claims=[];
+
+function toast(msg){const t=$('#saved');t.textContent=msg||'Saved ✓';t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
+
+async function loadAll(){
+  try{
+    items=await factory.list('items');
+    claims=await factory.list('claims');
+  }catch(e){items=[];claims=[];}
+  render();
+  stats();
+}
+
+function stats(){
+  $('#statItems').textContent=items.length;
+  $('#statClaims').textContent=claims.length;
+  $('#statUnits').textContent=claims.reduce((a,c)=>a+(+c.qty||0),0);
+}
+
+function render(){
+  const q=$('#search').value.toLowerCase().trim();
+  const cat=$('#filterCat').value;
+  const av=$('#filterAvail').value;
+  const box=$('#listings');
+  let list=items.filter(it=>{
+    if(q && !(it.name+' '+it.desc+' '+it.loc).toLowerCase().includes(q))return false;
+    if(cat && it.cat!==cat)return false;
+    const left=(+it.qty)-(+it.claimed||0);
+    if(av==='in' && left<=0)return false;
+    if(av==='out' && left>0)return false;
+    return true;
+  });
+  box.innerHTML='';
+  $('#noItems').style.display=list.length?'none':'block';
+  list.forEach(it=>{
+    const left=(+it.qty)-(+it.claimed||0);
+    let pill=left<=0?'<span class="pill out">Fully claimed</span>':left<=3?'<span class="pill low">Only '+left+' left</span>':'<span class="pill">'+left+' available</span>';
+    const el=document.createElement('div');
+    el.className='item';
+    el.innerHTML=`
+      <span class="pill" style="align-self:flex-start">${esc(it.cat)}</span>
+      <h3>${esc(it.name)}</h3>
+      ${it.desc?`<p class="muted" style="margin:0">${esc(it.desc)}</p>`:''}
+      <div class="meta"><span>📍 ${esc(it.loc)}</span></div>
+      <div class="avail">${pill}</div>
+      <div class="item-foot">
+        ${left>0?`<button class="btn small claimBtn" data-id="${it.id}">Claim this</button>`:`<button class="btn small ghost" disabled>None left</button>`}
+      </div>`;
+    box.appendChild(el);
+  });
+  document.querySelectorAll('.claimBtn').forEach(b=>b.onclick=()=>openClaim(b.dataset.id));
+}
+
+function openClaim(id){
+  const it=items.find(x=>x.id===id);if(!it)return;
+  const left=(+it.qty)-(+it.claimed||0);
+  const wrap=document.createElement('div');
+  wrap.style.cssText='position:fixed;inset:0;background:rgba(35,49,43,.55);display:flex;align-items:center;justify-content:center;z-index:60;padding:16px';
+  wrap.innerHTML=`<form class="card" style="max-width:420px;width:100%;max-height:90vh;overflow:auto">
+    <h3 style="margin-top:0">Claim: ${esc(it.name)}</h3>
+    <p class="muted" style="margin-top:0">${left} available at ${esc(it.loc)}.</p>
+    <label>Your name</label><input id="cName" required>
+    <label>Contact (email or phone)</label><input id="cContact" required placeholder="So the organiser can confirm">
+    <label>How many?</label><input id="cQty" type="number" min="1" max="${left}" value="1" required>
+    <label class="check"><input type="checkbox" id="cConsent"> <span>Tick to receive offers and news from this share.</span></label>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn" type="submit" style="flex:1">Confirm claim</button>
+      <button class="btn ghost" type="button" id="cCancel">Cancel</button>
+    </div></form>`;
+  document.body.appendChild(wrap);
+  wrap.querySelector('#cCancel').onclick=()=>wrap.remove();
+  wrap.onclick=e=>{if(e.target===wrap)wrap.remove();};
+  wrap.querySelector('form').onsubmit=async e=>{
+    e.preventDefault();
+    const qty=Math.min(+wrap.querySelector('#cQty').value,left);
+    if(qty<1)return;
+    it.claimed=(+it.claimed||0)+qty;
+    await factory.put('items',it.id,{name:it.name,cat:it.cat,qty:it.qty,claimed:it.claimed,loc:it.loc,desc:it.desc});
+    const cid=String(Date.now());
+    const claim={name:wrap.querySelector('#cName').value.trim(),contact:wrap.querySelector('#cContact').value.trim(),item:it.name,qty,consent:wrap.querySelector('#cConsent').checked,date:new Date().toISOString()};
+    await factory.put('claims',cid,claim);
+    claims.unshift({id:cid,...claim});
+    toast('Claim saved ✓');
+    wrap.remove();
+    render();stats();
+  };
+}
+
+$('#shareForm').onsubmit=async e=>{
+  e.preventDefault();
+  const id=String(Date.now());
+  const doc={name:$('#fName').value.trim(),cat:$('#fCat').value,qty:+$('#fQty').value,claimed:0,loc:$('#fLoc').value.trim(),desc:$('#fDesc').value.trim()};
+  await factory.put('items',id,doc);
+  items.unshift({id,...doc});
+  toast('Listing published ✓');
+  e.target.reset();$('#fQty').value=10;
+  render();stats();
+  document.querySelector('#available').scrollIntoView({behavior:'smooth'});
+};
+
+['#search','#filterCat','#filterAvail'].forEach(s=>$(s).addEventListener('input',render));
+
+// nearby places
+$('#findBtn').onclick=async()=>{
+  const pc=$('#pcode').value.trim();
+  const out=$('#nearOut');
+  if(!pc){out.innerHTML='<span class="muted">Enter a postcode first.</span>';return;}
+  out.innerHTML='<span class="loading">Searching nearby community spots…</span>';
+  try{
+    const g=await(await fetch("https://canvbkibjgcnqowjtarf.supabase.co/functions/v1/places-desk",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({op:"geocode",q:pc})})).json();
+    if(!g.ok)throw 0;
+    const n=await(await fetch("https://canvbkibjgcnqowjtarf.supabase.co/functions/v1/places-desk",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({op:"nearby",lat:g.lat,lon:g.lon,kind:"community_centre",radius:3000})})).json();
+    const places=(n.ok&&n.places)?n.places.slice(0,6):[];
+    if(!places.length){out.innerHTML='<span class="muted">Near '+esc(g.display)+' — no community centres found. You can still list any location by name above.</span>';return;}
+    out.innerHTML='<p style="margin:0 0 8px" class="muted">Near '+esc(g.display)+':</p>'+places.map(p=>`<div style="padding:7px 0;border-bottom:1px solid var(--line)"><strong>${esc(p.name||'Community spot')}</strong>${p.address?'<br><span class="muted" style="font-size:.85rem">'+esc(p.address)+'</span>':''}</div>`).join('');
+  }catch(err){
+    out.innerHTML='<span class="muted">Couldn\'t reach the places service. <button class="btn small ghost" onclick="document.getElementById(\'findBtn\').click()">Retry</button></span>';
+  }
+};
+
+// owner desk
+function getOwnerCode(){return localStorage.getItem('cs_owner')||'';}
+$('#ownerBtn').onclick=()=>{
+  const entered=$('#ownerCode').value.trim();
+  if(!entered){alert('Enter a code to open the desk.');return;}
+  let stored=getOwnerCode();
+  if(!stored){localStorage.setItem('cs_owner',entered);stored=entered;toast('Organiser code set ✓');}
+  if(entered!==stored){alert('That code does not match the organiser code set on this device.');return;}
+  const p=$('#ownerPanel');p.classList.add('show');
+  const tb=$('#ownerTable tbody');tb.innerHTML='';
+  if(!claims.length){tb.innerHTML='<tr><td colspan="6" class="muted">No claims yet.</td></tr>';}
+  claims.forEach(c=>{
+    tb.innerHTML+=`<tr><td>${esc(c.name)}</td><td>${esc(c.contact)}</td><td>${esc(c.item)}</td><td>${c.qty}</td><td>${c.consent?'Yes':'No'}</td><td>${new Date(c.date).toLocaleDateString()}</td></tr>`;
+  });
+  p.scrollIntoView({behavior:'smooth'});
+};
+$('#ownerExport').onclick=()=>{
+  const entered=$('#ownerCode').value.trim(),stored=getOwnerCode();
+  if(!stored||entered!==stored){alert('Open the desk with your organiser code first.');return;}
+  const consented=claims.filter(c=>c.consent);
+  if(!consented.length){alert('No consented contacts to export yet.');return;}
+  let csv='Name,Contact,Item,Quantity,Consent,Date\n';
+  consented.forEach(c=>{csv+=`"${(c.name||'').replace(/"/g,'""')}","${(c.contact||'').replace(/"/g,'""')}","${(c.item||'').replace(/"/g,'""')}",${c.qty},Yes,${c.date}\n`;});
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='community-share-contacts.csv';a.click();
+  toast('CSV downloaded ✓');
+};
+
+loadAll();
+</script>
+<div id="factory-provenance" style="padding:14px 16px;text-align:center;font:11px/1.7 system-ui,sans-serif;color:#888;opacity:.85;">&#9874; Built with <a href="https://thefactory.refereeinnovations.com" style="color:#888;">The Factory</a> using third-party AI tools &#183; the app owner is responsible for its content &#183; Standard: UK law, aligned with the UN Universal Declaration of Human Rights &#183; <a href="https://thefactory.refereeinnovations.com/terms.html" style="color:#888;">Terms</a></div>
+</body>
+</html>
